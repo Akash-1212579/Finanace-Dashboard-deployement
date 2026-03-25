@@ -83,7 +83,7 @@ ABSOLUTELY NOTHING ELSE.
   headers: {
     "Authorization": `Bearer ${APIKEY}`,
     "Content-Type": "application/json",
-    "HTTP-Referer": "http://localhost:3000",
+    "HTTP-Referer": "https://finanace-dashboard-deployement.onrender.com",   //backend link
     "X-Title": "Node LLM Backend"
   },
   body: JSON.stringify({
