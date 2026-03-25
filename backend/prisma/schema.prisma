@@ -1,0 +1,115 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//user model
+
+model User {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+
+  //relations with Account and Category table
+  accounts    Account[]
+  transactions Transaction[]
+  categories Category[]
+}
+
+model Account{
+  id        Int      @id @default(autoincrement())
+  name      String
+  bankName  String
+  accountNumber  String?
+  balance   Float
+  userId    Int
+  createdAt DateTime @default(now())
+
+  user         User          @relation(fields: [userId], references: [id])
+  transactions Transaction[]
+}
+
+//Transactions
+model Transaction {
+  id               Int      @id @default(autoincrement())
+
+  // Ownership
+  userId           Int
+  accountId        Int
+  categoryId       Int?
+
+  // Transaction details
+  amount           Float
+  type             TransactionType
+  paymentMode      PaymentMode @default(UNKNOWN)
+  description      String?
+  date             DateTime
+  balanceAfterTxn  Float?
+
+  // Raw bank record
+  rawData          Json
+
+  createdAt        DateTime @default(now())
+
+  // Relations
+  user     User     @relation(fields: [userId], references: [id])
+  account  Account  @relation(fields: [accountId], references: [id])
+  category Category? @relation(fields: [categoryId], references: [id])
+
+  @@index([userId, date])
+  @@index([accountId, date])
+  @@index([paymentMode])
+}
+
+
+enum TransactionType {
+  CREDIT
+  DEBIT
+}
+enum PaymentMode {
+  UPI
+  NEFT
+  IMPS
+  RTGS
+  ATM
+  CASH
+  CARD
+  CHEQUE
+  WALLET
+  BANK_TRANSFER
+  UNKNOWN
+}
+
+
+//category
+model Category {
+  id        Int          @id @default(autoincrement())
+  name      String
+  type      CategoryType?
+  userId    Int
+  createdAt DateTime     @default(now())
+
+  user         User          @relation(fields: [userId], references: [id])
+  transactions Transaction[]
+
+  @@unique([name, userId])
+}
+
+enum CategoryType {
+  INCOME
+  EXPENSE
+  TRANSFER
+}
