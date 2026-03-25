@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://finanace-dashboard-deployement.onrender.com/",  //backend api
+  baseURL: "https://finanace-dashboard-deployement.onrender.com",  //backend api
 });
 
 // Attach token automatically
