@@ -10,7 +10,7 @@ async function signUp({name,email,password , accountName , accountNumber}) {
     const existingUser = await prisma.user.findUnique({
         where :{email}
     });
-
+    console.log("existing user in register service value is ",existingUser);
     if(existingUser)
     {
         throw new Error("User Already exists please Login!");
