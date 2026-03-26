@@ -7,7 +7,7 @@ const SALT_Rounds = 10;
 
 async function signUp({name,email,password , accountName , accountNumber}) {
     // first checking that a user is already exists or not
-    const existingUser = await prisma.user.findUnique({
+    const existingUser = await prisma.user.findFirst({
         where :{email}
     });
     console.log("existing user in register service value is ",existingUser);
