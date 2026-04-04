@@ -31,6 +31,7 @@
 
 const { processCSVUpload } = require("../services/transaction.service");
 const {csvCategorizationScript} = require("../scripts/categorizeCsv");
+const { client } = require("../config/redis.config");
 async function uploadCsvHandler(req, res) {
   try {
     //const userId = req.user.id;
@@ -38,10 +39,11 @@ async function uploadCsvHandler(req, res) {
     const userId = Number(req.userId);
     //const accountId = Number(req.body.accountId);
     //console.log("account id is ",accountId)
+    const key = `transactions:${userId}`;
     if (!req.file) {
       return res.status(400).json({ error: "No CSV file uploaded" });
     }
-
+      await client.del(key);
     const result = await processCSVUpload({
       userId,
       

@@ -1,12 +1,13 @@
 const prisma = require("../config/db.config");
 
-async function getFilteredTransactions({userId,from,to,type,category,mode}) {
+async function getFilteredTransactions({userId,type,category,mode}) {
     
        const existingUser = await prisma.user.findFirst({
         where :{
             id: Number(userId)
         }}
     )
+    //console.log("filtered transaction user is ",existingUser);
     if(!existingUser)
     {
         throw new Error(`${userId} doesn't exists!`);      
@@ -25,10 +26,10 @@ async function getFilteredTransactions({userId,from,to,type,category,mode}) {
     });
     let requiredCategoryId = Number(categoryId.id);
 // console.log("required category id is",requiredCategoryId);
-console.log("from",from,"to",to);
+// console.log("from",from,"to",to);
 
-const isValidDate = (v) =>
-  v && !Number.isNaN(new Date(v).getTime());
+// const isValidDate = (v) =>
+//   v && !Number.isNaN(new Date(v).getTime());
 
 const whereClause = {
   userId,
@@ -44,17 +45,17 @@ const whereClause = {
   }),
 };
 
-if (isValidDate(from) || isValidDate(to)) {
-  whereClause.date = {};
+// if (isValidDate(from) || isValidDate(to)) {
+//   whereClause.date = {};
 
-  if (isValidDate(from)) {
-    whereClause.date.gte = new Date(from);
-  }
+//   if (isValidDate(from)) {
+//     whereClause.date.gte = new Date(from);
+//   }
 
-  if (isValidDate(to)) {
-    whereClause.date.lt = new Date(to);
-  }
-}
+//   if (isValidDate(to)) {
+//     whereClause.date.lt = new Date(to);
+//   }
+// }
 
 
     const filteredTransactions = await prisma.transaction.findMany({

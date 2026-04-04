@@ -3,12 +3,12 @@ const addTransactionHandler = async (req, res) => {
   try {
     // userId must come from auth middleware
     const userId = req.userId;
-
+   
     if (!userId) {
       return res.status(401).json({ message: "Unauthorized" })
     }
 
-    // extract payload from frontend
+     const key = `transactions:${userId}`;
     const {
         
       amount,
@@ -20,7 +20,7 @@ const addTransactionHandler = async (req, res) => {
       rawData,
     } = req.body
 
-    // minimal validation (shape only)
+  
     if (
       typeof amount !== "number" ||
       !type ||
@@ -33,7 +33,7 @@ const addTransactionHandler = async (req, res) => {
       })
     }
 
-    // pass everything to service
+  
     const transaction = await addTransaction({
       userId,
       amount,
@@ -44,7 +44,7 @@ const addTransactionHandler = async (req, res) => {
       description,
       rawData,
     })
-
+await client.del(key);
     return res.status(201).json(transaction)
   } catch (err) {
     console.error("Create transaction error:", err)
