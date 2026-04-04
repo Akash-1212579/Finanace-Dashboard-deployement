@@ -5,12 +5,12 @@ const SALT_Rounds = 10;
 
 //creating a service for signup
 
-async function signUp({name,email,password , accountName , accountNumber}) {
+async function signUp({name,email,password}) {
     // first checking that a user is already exists or not
-    const existingUser = await prisma.user.findFirst({
+    const existingUser = await prisma.user.findUnique({
         where :{email}
     });
-    console.log("existing user in register service value is ",existingUser);
+
     if(existingUser)
     {
         throw new Error("User Already exists please Login!");
@@ -35,17 +35,17 @@ if (!userData) {
   throw new Error("User not found");
 }
 
-const userId = userData.id;
+//const userId = userData.id;
 
-    const account = await prisma.account.create({
-        data :{
-            name : accountName,
-            bankName : "Bank Of Maharashtra",
-            balance : 0,
-            userId : userId,
-            accountNumber : accountNumber
-        }
-    });
+    // const account = await prisma.account.create({
+    //     data :{
+    //         name : accountName,
+    //         bankName : "Bank Of Maharashtra",
+    //         balance : 0,
+    //         userId : userId,
+    //         accountNumber : accountNumber
+    //     }
+    // });
 
    const token = jwt.sign(
     { userId: user.id },
