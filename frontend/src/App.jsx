@@ -11,6 +11,7 @@ import ProtectedRoute from "./app/layout/ProtectedRoute";
 import AuthLayout from "./app/layout/AuthLayout";
 import Register from "./authentication/Register";
 import Profile from "./features/settings/pages/Profile";
+import AddBank from "./features/bank/AddBank";
 function App() {
 //      localStorage.setItem("token","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpYXQiOjE3Njg4MDkwNzksImV4cCI6MTc2ODg5NTQ3OX0._uLeIgi4q2xE2ndZbtIqmvoQYCc-CS-3sZeFv4ihGXE");
 
@@ -29,6 +30,7 @@ function App() {
       <Route element={<ProtectedRoute/>}>
       <Route element={<AppLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/addbank" element={<AddBank/>}/>
         <Route path="/transactions" element={<Transactions />} />
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/vault" element={<ImportExport />} />

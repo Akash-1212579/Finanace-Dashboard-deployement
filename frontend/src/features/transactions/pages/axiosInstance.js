@@ -1,10 +1,10 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://finanace-dashboard-deployement.onrender.com",  //backend api
+  baseURL: "http://localhost:3000",
+  withCredentials : true
 });
 
-// Attach token automatically
 api.interceptors.request.use(
   (config) => {
     const token = sessionStorage.getItem("token");

@@ -1,8 +1,8 @@
 const prisma = require("../config/db.config");
 
 async function createAccount({ userId, name, bankName, accountNumber}) {
-    if (!name) throw new Error("Account name is required");
-
+    if (!name || !bankName || !accountNumber) throw new Error("Account name is required");
+    console.log("credentials for createAccount are ",name , bankName , accountNumber);
     return prisma.account.create({
         data:{
             userId,

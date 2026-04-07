@@ -2,6 +2,12 @@ const prisma = require("../config/db.config");
 
 async function createCategory(userId) {
   //if user exists then do not add more categories causses duplication
+  if (!userId) {
+    throw new Error("UserId required for adding categories");
+    
+  } else {
+    
+  }
   const existingUser = await prisma.category.findFirst({
     where: {
       userId: Number(userId),

@@ -15,8 +15,14 @@ async function createBankAccount(userId , name,bankName,accountNumber){
     if (!userId || !name || !bankName || !accountNumber) {
       throw new Error("Failed to create Insufficient bank details");
     }
-
-    const bankaccount = await createAccount({
+    const existingAccount = await getAccounts(userId);
+    if (existingAccount.length!=0) {
+      console.log("existingAccount is ",existingAccount);
+      return existingAccount;
+    }
+    
+    else{
+      const bankaccount = await createAccount({
       userId,
       name,
       bankName,
@@ -24,6 +30,8 @@ async function createBankAccount(userId , name,bankName,accountNumber){
     });
 
     return bankaccount; 
+    }
+    
 
   
 }
@@ -58,6 +66,7 @@ async function createAccountHandler(req,res) {
       , createCategories(userId)
     ]).then((result)=>{
       result.forEach((res)=>{
+        console.log("res while add bank is ",res);
         if(res.status =="rejected")
         {
           console.log("failed promise is ",res.reason);

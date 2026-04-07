@@ -1,7 +1,7 @@
 const prisma = require("../config/db.config");
 
 async function getFilteredTransactions({userId,type,category,mode}) {
-    
+    console.log("filter data at service is ",userId ,type , category ,mode);
        const existingUser = await prisma.user.findFirst({
         where :{
             id: Number(userId)
@@ -15,17 +15,24 @@ async function getFilteredTransactions({userId,type,category,mode}) {
     //console.log("category is ",category);
     //console.log("type is ",type);
     //console.log("mode is ",mode);
-    const categoryId = await prisma.category.findFirst({
+    let categoryId;
+    let requiredCategoryId = null;
+    if (category) {
+       categoryId = await prisma.category.findFirst({
         where:{
             userId : userId,
-            name : category
+            name : category?category:""
         },
         select:{
             id :  true
         }
     });
-    let requiredCategoryId = Number(categoryId.id);
-// console.log("required category id is",requiredCategoryId);
+    requiredCategoryId = categoryId?.id;
+    }
+    
+    console.log("categoryId at filter is ",categoryId);
+  //    let requiredCategoryId = Number(categoryId.id);
+ console.log("required category id is",requiredCategoryId);
 // console.log("from",from,"to",to);
 
 // const isValidDate = (v) =>

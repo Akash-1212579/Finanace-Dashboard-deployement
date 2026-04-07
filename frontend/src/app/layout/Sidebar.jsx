@@ -5,6 +5,8 @@ import { Wallet,Menu, X,
   Upload,
   Settings,
   LogOut ,
+  Landmark,
+  Plus
 } from "lucide-react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -14,10 +16,12 @@ import { logout } from "../../redux/auth/authSlice";
 
 const navItems = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
+  {label : "Add Bank Details", icon : Landmark , path:"/addbank"},
   { label: "Transactions", icon: Receipt, path: "/transactions" },
   { label: "Analytics", icon: BarChart3, path: "/analytics" },
   { label: "Import/Export", icon: Upload, path: "/vault" },
   { label: "Profile", icon: Settings, path: "/profile" },
+
 ];
 
 const Sidebar = ({isOpen ,userName}) => {

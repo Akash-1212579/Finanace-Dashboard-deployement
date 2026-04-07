@@ -6,6 +6,7 @@ async function getFilteredTransactionsHandler(req, res) {
   try {
     const userId = req.userId;
     const {type, category, mode} = req.query;
+    console.log("filter data is ","user",userId ,type ,category , mode );
    // console.log(type,category,mode);
 // const safeStart = from ?? "1970-01-01T00:00:00.000Z";
 // const safeEnd = to ?? new Date().toISOString();
